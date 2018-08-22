@@ -1,0 +1,24 @@
+package com.taotao.portal.service;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class CartCookieService {
+
+	/**
+	 * 添加商品到购物车
+	 * 
+	 * @param request
+	 * @param response
+	 * @param itemId
+	 * @param num
+	 */
+	public void addItemByCart(HttpServletRequest request, HttpServletResponse response, Long itemId, Integer num) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -1,0 +1,167 @@
+package com.taotao.portal.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.taotao.cart.service.CartService;
+import com.taotao.manager.pojo.Cart;
+import com.taotao.manager.pojo.User;
+import com.taotao.portal.util.CookieUtils;
+import com.taotao.sso.service.UserService;
+
+@Controller
+@RequestMapping("cart")
+public class CartController {
+
+	@Value("${TT_TICKET}")
+	private String TT_TICKET;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private CartService cartService;
+
+	// http://www.taotao.com/cart/738388.html?num=3
+	/**
+	 * 添加商品到购物车
+	 * 
+	 * @param request
+	 * @param itemId
+	 * @param num
+	 * @return
+	 */
+	@RequestMapping(value = "{itemId}")
+	public String addItemByCart(HttpServletRequest request, @PathVariable Long itemId, Integer num) {
+		// 获取用户登录信息
+		// 从cookie中获取ticket
+		String ticket = CookieUtils.getCookieValue(request, this.TT_TICKET, true);
+		// 使用单点登录服务，根据ticket查询用户信息
+		User user = this.userService.queryUserByTicket(ticket);
+
+		// 判断用户是否登录,就是判断user是否为非空
+		if (user != null) {
+			// user不为空，表示用户已登录
+			// 使用购物车服务，把商品加入到购物车中
+			this.cartService.addItemByCart(user.getId(), itemId, num);
+		} else {
+			// user为空，表示用户未登录
+
+		}
+
+		return "redirect:/cart/show.html";
+	}
+
+	// springmvc 第二天
+	// Controller返回值
+	// ModelAndView
+	// void
+	// 使用request进行转发
+	// 使用response重定向
+	// String
+	// 返回逻辑视图名
+	// 进行转发forward转发
+	// 把原来的参数也带过来，原来的request和response
+	// 进行重定向redirect重定向
+	// 原来的参数没有了，新的request和response
+
+	// http://www.taotao.com/cart/show.html
+	/**
+	 * 展示购物车详情页
+	 * 
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "show")
+	public String show(HttpServletRequest request, Model model) {
+		// 查询用户的登录信息
+		// 获取ticket
+		String ticket = CookieUtils.getCookieValue(request, this.TT_TICKET, true);
+		// 查询user
+		User user = this.userService.queryUserByTicket(ticket);
+
+		// 声明存放购物的容器
+		List<Cart> cartList = null;
+
+		// 判断用户是否登录，判断user不为空
+		if (user != null) {
+			// 如果已登录，根据用户id查询
+			cartList = this.cartService.queryCartByUserId(user.getId());
+		} else {
+			// 如果未登录，从cookie中查询
+
+		}
+
+		// 把购物车数据放到Model中，传递给前台页面
+		model.addAttribute("cartList", cartList);
+
+		return "cart";
+	}
+
+	// Request URL:http:// www.taotao.com/service/cart/update/num/1159198734/2
+	// Request Method:POST
+	/**
+	 * 修改购物车中的商品数量
+	 * 
+	 * @param request
+	 * @param itemId
+	 * @param num
+	 */
+	@RequestMapping(value = "update/num/{itemId}/{num}", method = RequestMethod.POST)
+	@ResponseBody
+	public void updateItemByCart(HttpServletRequest request, @PathVariable Long itemId, @PathVariable Integer num) {
+		// 获取用户登录信息
+		// 从cookie中获取ticket
+		String ticket = CookieUtils.getCookieValue(request, this.TT_TICKET, true);
+		// 使用单点登录服务，根据ticket查询用户信息
+		User user = this.userService.queryUserByTicket(ticket);
+
+		// 判断用户是否登录,就是判断user是否为非空
+		if (user != null) {
+			// user不为空，表示用户已登录
+			this.cartService.updateItemByCart(user.getId(), itemId, num);
+		} else {
+			// user为空，表示用户未登录
+
+		}
+	}
+
+	// http://www.taotao.com/cart/delete/1159198734.html
+	/**
+	 * 删除购物车中的商品
+	 * 
+	 * @param request
+	 * @param itemId
+	 * @return
+	 */
+	@RequestMapping(value = "delete/{itemId}")
+	public String delteItemByCart(HttpServletRequest request, @PathVariable Long itemId) {
+		// 获取用户登录信息
+		// 从cookie中获取ticket
+		String ticket = CookieUtils.getCookieValue(request, this.TT_TICKET, true);
+		// 使用单点登录服务，根据ticket查询用户信息
+		User user = this.userService.queryUserByTicket(ticket);
+
+		// 判断用户是否登录,就是判断user是否为非空
+		if (user != null) {
+			// user不为空，表示用户已登录
+			this.cartService.delteItemByCart(user.getId(), itemId);
+		} else {
+			// user为空，表示用户未登录
+
+		}
+		return "redirect:/cart/show.html";
+	}
+
+}

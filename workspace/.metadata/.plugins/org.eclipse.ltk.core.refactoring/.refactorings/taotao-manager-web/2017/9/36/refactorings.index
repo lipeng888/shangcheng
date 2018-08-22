@@ -1,0 +1,8 @@
+1504608849247	Extract local variable 'date'
+1504694222170	Extract local variable 'list'
+1504859252862	Extract local variable 'list'
+1504948914853	Extract local variable 'image'
+1504949512197	Extract local variable 'trackerServer'
+1504949757636	Extract local variable 'str'
+1504950088257	Rename local variable 'url'
+1504951990061	Extract local variable 'json'

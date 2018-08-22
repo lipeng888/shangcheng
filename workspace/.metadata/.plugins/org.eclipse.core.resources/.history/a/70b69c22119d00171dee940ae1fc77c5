@@ -1,0 +1,9 @@
+package cn.itcast.freemarker.test;
+
+public class FreeMarkerTest {
+
+	public static void main(String[] args) {
+
+	}
+
+}

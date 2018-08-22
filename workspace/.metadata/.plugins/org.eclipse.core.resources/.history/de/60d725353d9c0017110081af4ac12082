@@ -1,0 +1,26 @@
+package com.taotao.search.controller;
+
+import java.io.UnsupportedEncodingException;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("search")
+public class SearchController {
+
+	// http://search.taotao.com/search.html?q=apple
+	@RequestMapping
+	public String search(String q) {
+		try {
+			// 重新编码解决get请求的乱码问题
+			q = new String(q.getBytes("ISO-8859-1"), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return "search";
+	}
+
+}

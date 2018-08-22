@@ -1,0 +1,14 @@
+package com.taotao.cart.service;
+
+public interface CartService {
+
+	/**
+	 * 添加商品到购物车
+	 * 
+	 * @param id
+	 * @param itemId
+	 * @param num
+	 */
+	void addItemByCart(Long id, Long itemId, Integer num);
+
+}

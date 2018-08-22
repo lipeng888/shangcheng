@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+//基础实现
+hello ${name} !
+
+//javaBean
+${person.id?c}
+${person.id}
+${person.name}
+
+//List
+<#list list as l >
+	${l_index + 41}
+	${l.id}
+	${l.name}
+</#list>
+
+//map展示第一种方式
+<#list map?keys as k>
+	${map[k].id}
+	${map[k].name}
+</#list>
+
+//map展示第二种方式
+${map.m1.id}
+${map.m1.name}
+${map.m2.id}
+${map.m2.name}
+${map.m3.id}
+${map.m3.name}
+
+//List<Map>方式一
+<#list lm as suibianxie >
+	<#list suibianxie?keys as suibianlang>
+		${suibianxie[suibianlang].id}
+		${suibianxie[suibianlang].name}
+	</#list>
+</#list>
+
+//List<Map>方式二
+<#list lm as suibianxiu>
+	${suibianxiu.m1.id}
+	${suibianxiu.m1.name}
+	${suibianxiu.m2.id}
+	${suibianxiu.m2.name}
+</#list>
+
+//date
+${date?datetime}
+${date?date}
+${date?time}
+
+
+</body>
+</html>

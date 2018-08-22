@@ -1,0 +1,28 @@
+package com.taotao.item.message;
+
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.TextMessage;
+
+public class HtmlMessageListener implements MessageListener {
+
+	@Override
+	public void onMessage(Message message) {
+		// 判断消息的类型是否是TextMessage
+		if (message instanceof TextMessage) {
+			// 如果是TextMessage，强转
+
+			// 获取消息内容{type：save，itemId：123}
+
+			// 判断json数据不为空
+			// 直接解析json数据
+
+			// 获取操作符type
+			// 获取商品id
+
+			// 根据消息内容生成静态页面
+
+		}
+	}
+
+}

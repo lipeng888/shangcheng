@@ -1,0 +1,16 @@
+package cn.itcast.freemarker.test;
+
+public class FreeMarkerTest {
+	// 模板 + 数据 = 静态页面
+	public static void main(String[] args) {
+		// 1. 创建freemarker核心对象
+		// 2. 给核心对象设置模板所在的位置，就是物理路径
+		// 3. 使用核心对象获取模板对象，需要的参数就是模板名称
+		// 4. 创建模型数据，官方推荐使用Map
+		// 5. 声明输出的Writer对象
+		// 6. 使用模板对象输出静态页面（文本文件），
+		// 需要两个参数，一个是模型数据，第二参数是输出的Writer
+
+	}
+
+}

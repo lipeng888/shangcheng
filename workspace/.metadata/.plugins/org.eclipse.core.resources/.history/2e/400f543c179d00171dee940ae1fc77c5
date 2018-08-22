@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+//基础实现
+hello ${name} !
+
+//javaBean
+${person.id?c}
+${person.id}
+${person.name}
+
+//List
+<#list list as l >
+	${l_index}
+	${l.id}
+	${l.name}
+</#list>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

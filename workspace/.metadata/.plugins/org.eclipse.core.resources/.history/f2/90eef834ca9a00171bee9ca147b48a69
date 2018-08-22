@@ -1,0 +1,21 @@
+package com.taotao.search.test;
+
+import org.junit.Test;
+
+import com.taotao.manager.mapper.ItemMapper;
+
+public class itemData {
+
+	private ItemMapper itemMapper;
+
+	@Test
+	public void testItemData() {
+		// 把商品数据从MySQL中查询
+
+		// 把商品数据使用Document进行封装
+
+		// 使用CloudSolrServer把数据保存到索引库中
+
+	}
+
+}

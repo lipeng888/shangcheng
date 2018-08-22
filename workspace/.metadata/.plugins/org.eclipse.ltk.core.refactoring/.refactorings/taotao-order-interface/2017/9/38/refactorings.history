@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;id&apos; in &apos;com.taotao.order.service.OrderService.queryOrderById(...)&apos; to &apos;orderId&apos;&#x0D;&#x0A;- Original project: &apos;taotao-order-interface&apos;&#x0D;&#x0A;- Original element: &apos;com.taotao.order.service.OrderService.queryOrderById(String).id&apos;&#x0D;&#x0A;- Renamed element: &apos;id&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;id&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src\/main\/java&lt;com.taotao.order.service{OrderService.java[OrderService~queryOrderById~QString;@id!291!299!298!299!QString;!0!true" name="orderId" references="true" stamp="1506072738366" version="1.0"/>
+</session>

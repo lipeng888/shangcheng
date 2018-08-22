@@ -1,0 +1,8 @@
+1505719738682	Extract local variable 'response'
+1505719752612	Extract local variable 'results'
+1505730079916	Extract local variable 'json'
+1505730237116	Extract local variable 'jsonNode'
+1505730292457	Extract local variable 'type'
+1505730572465	Extract local variable 'item'
+1505730894368	Extract local variable 'map'
+1505730948781	Extract local variable 'hlist'

@@ -1,0 +1,9 @@
+package cn.itcast.freemarker.test;
+
+public class FreeMarkerTest {
+	// 模板 + 数据 = 静态页面
+	public static void main(String[] args) {
+
+	}
+
+}

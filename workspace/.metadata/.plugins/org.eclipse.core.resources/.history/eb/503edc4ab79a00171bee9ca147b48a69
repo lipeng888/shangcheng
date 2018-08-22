@@ -1,0 +1,33 @@
+package cn.itcast.solrj.test;
+
+import org.apache.solr.client.solrj.impl.HttpSolrServer;
+import org.apache.solr.common.SolrInputDocument;
+import org.junit.Test;
+
+public class HttpSolrServerTest {
+
+	// 新增和更新
+	@Test
+	public void testSaveAndUpdate() throws Exception {
+		// 创建HttpSolrServer连接对象
+		// 浏览器客户端访问地址：http://solr.taotao.com/solr/#/
+		// java代码的接口访问地址:http://solr.taotao.com/solr/
+		// 声明solr的接口地址
+		String baseURL = "http://solr.taotao.com/solr/";
+
+		HttpSolrServer httpSolrServer = new HttpSolrServer(baseURL);
+
+		// 创建SolrInputDocument，封装要保存的数据
+		SolrInputDocument doc = new SolrInputDocument();
+		// 如果id唯一域不存在，执行新增操作
+		// 如果id唯一域存在，执行更新操作
+		doc.setField("id", "c001");
+		// 使用HttpSolrServer把数据保存到索引库中
+
+	}
+
+	// 删除
+
+	// 查询
+
+}

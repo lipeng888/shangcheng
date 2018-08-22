@@ -1,0 +1,20 @@
+1505117030565	Copy compilation unit
+1505118141202	Extract local variable 'list'
+1505121207472	Extract local variable 'parent'
+1505123448393	Extract local variable 'list'
+1505123460346	Extract local variable 'count'
+1505123917365	Extract local variable 'list'
+1505125149291	Extract local variable 'list'
+1505199331222	Extract local variable 'list'
+1505199670472	Extract local variable 'json'
+1505211728422	Extract local variable 'jedis'
+1505211786388	Extract local variable 'result'
+1505211818096	Extract local variable 'count'
+1505211899293	Extract local variable 'result'
+1505212003435	Extract local variable 'count'
+1505212035470	Copy file
+1505212814766	Extract local variable 'redisJson'
+1505459051233	Copy elements
+1505459121066	Copy package
+1505459126680	Copy package
+1505557267161	Copy elements

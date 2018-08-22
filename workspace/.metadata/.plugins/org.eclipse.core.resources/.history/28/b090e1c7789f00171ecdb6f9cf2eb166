@@ -1,0 +1,130 @@
+package com.taotao.portal.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.taotao.cart.service.CartService;
+import com.taotao.manager.pojo.Cart;
+import com.taotao.manager.pojo.Order;
+import com.taotao.manager.pojo.User;
+import com.taotao.order.service.OrderService;
+import com.taotao.sso.service.UserService;
+
+@Controller
+@RequestMapping("order")
+public class OrderController {
+
+	@Value("${TT_TICKET}")
+	private String TT_TICKET;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private OrderService orderService;
+
+	@Autowired
+	private CartService cartService;
+
+	// http://www.taotao.com/order/create.html
+	/**
+	 * 跳转到订单确认页面
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("create")
+	public String create(Model model, HttpServletRequest request) {
+		// 获取用户登录信息
+		// 从cookie中获取ticket
+		// String ticket = CookieUtils.getCookieValue(request, this.TT_TICKET,
+		// true);
+		// 使用单点登录服务，通过ticket查询用户登录信息
+		// User user = this.userService.queryUserByTicket(ticket);
+
+		// 直接从request中获取user
+		User user = (User) request.getAttribute("user");
+
+		// 判断用户是否登录
+		// if (user != null) {
+		// 如果登录，使用用户id查询该用户的购物车数据
+		List<Cart> carts = this.cartService.queryCartByUserId(user.getId());
+
+		// 把购物车数据放到Model，传递给前台页面
+		model.addAttribute("carts", carts);
+		// }
+
+		return "order-cart";
+	}
+
+	// type : "POST",
+	// dataType : "json",
+	// url : "/service/order/submit",
+	// if(result.status == 200)
+	// location.href = "/order/success.html?id="+result.data;
+	/**
+	 * 创建订单
+	 * 
+	 * @param request
+	 * @param order
+	 * @return
+	 */
+	@RequestMapping(value = "submit", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> saveOrder(HttpServletRequest request, Order order) {
+		// 声明返回map
+		Map<String, Object> map = new HashMap<>();
+
+		// 获取用户登录信息
+		User user = (User) request.getAttribute("user");
+
+		// 把用户登录信息设置到订单对象中
+		order.setUserId(user.getId());
+		order.setBuyerNick(user.getUsername());
+
+		// 调用订单服务保存订单数据，返回订单id
+		String orderId = this.orderService.saveOrder(order);
+
+		// 如果订单id不为空，表示订单创建成功
+		if (StringUtils.isNotBlank(orderId)) {
+			// 设置返回数据
+			// result.status = 200
+			map.put("status", 200);
+			// result.data=订单id
+			map.put("data", orderId);
+
+		}
+		// 订单创建失败不设置返回数据直接返回
+
+		return map;
+	}
+
+	// http://www.taotao.com/order/success.html?id=910000001
+	@RequestMapping(value = "success")
+	public String success(Model model) {
+//		使用订单服务，根据订单id查询订单数据
+		this.orderService.queryOrderById(id);
+
+		// 把订单数据放到Model中，传递给前台页面
+		model.addAttribute("order", order);
+
+		// 把送达时间放到Model中，传递给前台页面，送达时间是当前时间往后推两天
+		model.addAttribute("date", null);
+
+		return "success";
+	}
+
+}

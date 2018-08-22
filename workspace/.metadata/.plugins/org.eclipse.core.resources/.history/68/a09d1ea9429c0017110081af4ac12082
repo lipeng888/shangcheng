@@ -1,0 +1,46 @@
+package com.taotao.search.service.impl;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.springframework.stereotype.Service;
+
+import com.taotao.common.pojo.TaoResult;
+import com.taotao.manager.pojo.Item;
+import com.taotao.search.service.SearchService;
+
+@Service
+public class SearchServiceImpl implements SearchService {
+
+	@Override
+	public TaoResult<Item> search(String q, Integer page, Integer rows) {
+		// 声明返回结果
+		TaoResult<Item> taoResult = new TaoResult<>();
+
+		// 创建搜索对象
+		SolrQuery solrQuery = new SolrQuery();
+
+		// 判断搜索关键词是否为非空
+		if (StringUtils.isNotBlank(q)) {
+			// 设置搜索语法
+			solrQuery.setQuery("item_title:" + q + " AND item_status:1");
+		} else {
+			// 如果是空，搜索所有数据
+			solrQuery.setQuery("item_status:1");
+		}
+		// 设置分页
+
+		// 设置高亮
+
+		// 使用CloudSolrServer实现查询，返回response
+
+		// 解析response结果集，获取results
+
+		// 遍历results，封装返回结果，商品
+
+		// 封装返回对象taoResult
+
+		// 如果查询有异常，不能返回null，应该返回空对象
+		return taoResult;
+	}
+
+}

@@ -1,0 +1,52 @@
+package com.taotao.portal.service;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Service;
+
+import com.taotao.manager.pojo.Cart;
+
+@Service
+public class CartCookieService {
+
+	/**
+	 * 添加商品到购物车
+	 * 
+	 * @param request
+	 * @param response
+	 * @param itemId
+	 * @param num
+	 */
+	public void addItemByCart(HttpServletRequest request, HttpServletResponse response, Long itemId, Integer num) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * 从cookie中查询购物车
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public List<Cart> queryCartByCookie(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 修改cookie中的购物车商品数量
+	 * 
+	 * @param request
+	 * @param response
+	 * @param itemId
+	 * @param num
+	 */
+	public void updateItemByCart(HttpServletRequest request, HttpServletResponse response, Long itemId, Integer num) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

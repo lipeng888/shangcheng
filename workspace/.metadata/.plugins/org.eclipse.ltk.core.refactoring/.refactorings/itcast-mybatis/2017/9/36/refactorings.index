@@ -1,0 +1,12 @@
+1504685842276	Delete element
+1504687997128	Extract local variable 'sqlSessionFactory'
+1504688065327	Extract local variable 'sqlSession'
+1504688112025	Extract local variable 'list'
+1504689957387	Delete element
+1504690110242	Extract local variable 'user'
+1504690289017	Rename local variable 'param'
+1504690292994	Extract local variable 'list'
+1504690345076	Extract local variable 'user'
+1504691950898	Extract local variable 'criteria'
+1504692152588	Extract local variable 'list'
+1504693007435	Extract local variable 'list'

@@ -1,0 +1,55 @@
+package com.taotao.order.service.impl;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.taotao.manager.mapper.OrderItemMapper;
+import com.taotao.manager.mapper.OrderMapper;
+import com.taotao.manager.mapper.OrderShippingMapper;
+import com.taotao.manager.pojo.Order;
+import com.taotao.order.redis.RedisUtils;
+import com.taotao.order.service.OrderService;
+
+@Service
+public class OrderServiceImpl implements OrderService {
+
+	@Value("${TAOTAO_ORDER_INCR}")
+	private String TAOTAO_ORDER_INCR;
+
+	@Autowired
+	private RedisUtils redisUtils;
+
+	@Autowired
+	private OrderMapper orderMapper;
+
+	@Autowired
+	private OrderItemMapper orderItemMapper;
+
+	@Autowired
+	private OrderShippingMapper orderShippingMapper;
+
+	@Override
+	public String saveOrder(Order order) {
+		// 创建订单id
+		// 需求：唯一的，可读性高，不能太长
+		// 实现方式：用户id+redis唯一数
+		String orderId = "" + order.getUserId() + this.redisUtils.incr(this.TAOTAO_ORDER_INCR);
+
+		// 保存订单基础数据
+		order.setOrderId(orderId);
+		order.setStatus(1);
+		order.setCreateTime(new Date());
+		this.orderMapper.insert(order);
+
+		// 保存订单商品数据
+
+		// 保存订单物流数据
+
+		// 返回订单id
+		return null;
+	}
+
+}

@@ -1,0 +1,30 @@
+package com.taotao.search.test;
+
+import org.apache.solr.client.solrj.impl.CloudSolrServer;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.taotao.manager.mapper.ItemMapper;
+
+public class itemData {
+
+	private ItemMapper itemMapper;
+
+	private CloudSolrServer cloudSolrServer;
+
+	@Before
+	public void init() {
+
+	}
+
+	@Test
+	public void testItemData() throws Exception {
+		// 把商品数据从MySQL中查询
+
+		// 把商品数据使用Document进行封装
+
+		// 使用CloudSolrServer把数据保存到索引库中
+
+	}
+
+}

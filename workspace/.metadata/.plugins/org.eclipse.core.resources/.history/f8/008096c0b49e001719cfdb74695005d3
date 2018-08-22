@@ -1,0 +1,214 @@
+package com.taotao.cart.service.impl;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.taotao.cart.redis.RedisUtils;
+import com.taotao.cart.service.CartService;
+import com.taotao.manager.mapper.ItemMapper;
+import com.taotao.manager.pojo.Cart;
+import com.taotao.manager.pojo.Item;
+
+@Service
+public class CartServiceImpl implements CartService {
+
+	private static final ObjectMapper MAPPER = new ObjectMapper();
+
+	@Autowired
+	private RedisUtils redisUtils;
+
+	@Autowired
+	private ItemMapper itemMapper;
+
+	@Value("${TAOTAO_CART_KEY}")
+	private String TAOTAO_CART_KEY;
+
+	@Override
+	public void addItemByCart(Long userId, Long itemId, Integer num) {
+		// 查询用户原来的购物车
+		List<Cart> list = this.queryCartByUserId(userId);
+
+		// 声明容器用来存放符合条件的购物车
+		Cart cart = null;
+
+		// 遍历购物车
+		for (Cart c : list) {
+			// 判断新添加的商品在购物车中是否存在
+			if (itemId.longValue() == c.getItemId().longValue()) {
+				// 如果新添加得商品在购物车中存在，赋值
+				cart = c;
+
+				// 跳出循环
+				break;
+			}
+		}
+
+		// 判断购物车中是否存在新添加的商品,其实就是判断cart是否为非空，不为空表示新添加得商品存在
+		if (cart != null) {
+			// 如果存在则商品数量相加
+			cart.setNum(cart.getNum() + num);
+			cart.setUpdated(new Date());
+
+		} else {
+			// 如果不存在则添加商品到购物车中
+			// 根据商品id从MySQL中查询商品数据
+			Item item = this.itemMapper.selectByPrimaryKey(itemId);
+
+			// 创建购物车对象
+			cart = new Cart();
+
+			// 给购物车商品赋值
+			cart.setItemId(itemId);
+			cart.setUserId(userId);
+			cart.setNum(num);
+			if (StringUtils.isNotBlank(item.getImage())) {
+				cart.setItemImage(item.getImages()[0]);
+			} else {
+				// 如果没有图片，设置为null
+				cart.setItemImage(null);
+			}
+			cart.setItemPrice(item.getPrice());
+			cart.setItemTitle(item.getTitle());
+			cart.setCreated(new Date());
+			cart.setUpdated(cart.getCreated());
+
+			// 把新加的商品放到list中
+			list.add(cart);
+
+		}
+
+		try {
+			// 把修改后的购物车保存到redis中
+			this.redisUtils.set(this.TAOTAO_CART_KEY + userId, MAPPER.writeValueAsString(list));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	// public static void main(String[] args) {
+	// Long a = 128l;
+	// Long aa = 128l;
+	//
+	// Integer b = 128;
+	// Integer bb = 128;
+	//
+	// System.out.println(a == aa);
+	// System.out.println(b == bb);
+	// System.out.println(a.longValue() == aa.longValue());
+	// System.out.println(b.intValue() == bb.intValue());
+	// }
+
+	@Override
+	public List<Cart> queryCartByUserId(Long userId) {
+		// 根据用户id从redis中查询购物车数据，查询到的是json格式数据
+		// 需要给key添加前缀，为了方便维护和管理redis
+		String json = this.redisUtils.get(this.TAOTAO_CART_KEY + userId);
+
+		// 判断json数据不为空
+		if (StringUtils.isNotBlank(json)) {
+			try {
+				// 如果不为空，把json格式转为List<Cart>集合
+				List<Cart> list = MAPPER.readValue(json,
+						MAPPER.getTypeFactory().constructCollectionType(List.class, Cart.class));
+
+				// 返回购物车
+				return list;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		// 如果查询的结果为空，不能返回null，否则遍历的时候会空指针异常
+		// 可以返回空集合
+		return new ArrayList<>();
+	}
+
+	@Override
+	public void updateItemByCart(Long userId, Long itemId, Integer num) {
+		// 根据用户id查询购物车
+		List<Cart> list = this.queryCartByUserId(userId);
+
+		// 遍历购物车
+		for (Cart cart : list) {
+			// 判断购物车是否存在该商品
+			if (cart.getItemId().longValue() == itemId.longValue()) {
+				// 如果存在该商品则修改商品数量
+				cart.setNum(num);
+
+				try {
+					// 把修改后的购物车放到redis中
+					this.redisUtils.set(this.TAOTAO_CART_KEY + userId, MAPPER.writeValueAsString(list));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				// 跳出循环
+				break;
+			}
+		}
+		// 如果没有找到商品，就什么都不做
+
+	}
+
+	@Override
+	public void delteItemByCart(Long userId, Long itemId) {
+		// 查询
+		List<Cart> list = this.queryCartByUserId(userId);
+
+		// 遍历
+		for (Cart cart : list) {
+			// 判断
+			if (cart.getItemId().longValue() == itemId.longValue()) {
+				// 删除
+				list.remove(cart);
+
+				// 保存
+				try {
+					this.redisUtils.set(this.TAOTAO_CART_KEY + userId, MAPPER.writeValueAsString(list));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				// 跳出
+				break;
+			}
+		}
+
+	}
+
+	public static void main(String[] args) {
+		List<Integer> ids = new ArrayList<>();
+
+		ids.add(1);
+		ids.add(2);
+		ids.add(3);
+		ids.add(4);
+
+		for (Integer i : ids) {
+			if (i == 3) {
+				ids.remove(i);
+				break;
+			}
+		}
+
+		System.out.println(ids.size());
+
+	}
+
+}

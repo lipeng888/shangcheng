@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Extract local variable &apos;callback&apos; from expression &apos;request.getParameter(&quot;callback&quot;)&apos;&#x0D;&#x0A;- Original project: &apos;taotao-sso-web&apos;&#x0D;&#x0A;- Variable name: &apos;callback&apos;&#x0D;&#x0A;- Destination method: &apos;com.taotao.sso.controller.UserController.check()&apos;&#x0D;&#x0A;- Variable expression: &apos;request.getParameter(&quot;callback&quot;)&apos;&#x0D;&#x0A;- Replace occurrences of expression with variable" description="Extract local variable &apos;callback&apos;" final="false" id="org.eclipse.jdt.ui.extract.temp" input="/src\/main\/java&lt;com.taotao.sso.controller{UserController.java" name="callback" replace="true" selection="1190 0" stamp="1505466906565" version="1.0"/>
+</session>

@@ -1,0 +1,115 @@
+package cn.itcast.solrj.test;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.impl.CloudSolrServer;
+import org.apache.solr.client.solrj.impl.HttpSolrServer;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.SolrInputDocument;
+import org.junit.Before;
+import org.junit.Test;
+
+public class CloudSolrServerTest {
+
+	private CloudSolrServer httpSolrServer;
+
+	@Before
+	public void init() {
+		// 声明zookeeper的连接信息
+		String zkHost = "192.168.37.161:3181,192.168.37.161:3182,192.168.37.161:3183";
+
+		this.httpSolrServer = new CloudSolrServer(zkHost);
+		
+//		设置collection的名字
+		this.httpSolrServer.setDefaultCollection("");
+	}
+
+	// 新增和更新
+	@Test
+	public void testSaveAndUpdate() throws Exception {
+		// 创建SolrInputDocument，封装要保存的数据
+		SolrInputDocument doc = new SolrInputDocument();
+		// 如果id唯一域不存在，执行新增操作
+		// 如果id唯一域存在，执行更新操作
+		doc.setField("id", "c003");
+		doc.setField("item_title", "起步20k，走向人生巅峰不远了");
+
+		// 使用HttpSolrServer把数据保存到索引库中
+		httpSolrServer.add(doc);
+		httpSolrServer.commit();
+
+	}
+
+	// 删除
+	@Test
+	public void testDelete() throws Exception {
+		// 根据HttpSolrServer删除数据
+		// 根据唯一域（id）进行删除
+		// this.httpSolrServer.deleteById("change.me");
+
+		// 根据条件进行删除（删除全部，慎用）
+		this.httpSolrServer.deleteByQuery("*:*");
+
+		// 提交
+		this.httpSolrServer.commit();
+
+	}
+
+	// 查询
+	@Test
+	public void testQuery() throws Exception {
+		// 创建查询对象
+		SolrQuery query = new SolrQuery();
+
+		// 设置查询语法item_title:solr
+		query.setQuery("item_title:solr");
+
+		// 设置高亮
+		// 设置开启高亮
+		query.setHighlight(true);
+		// 设置高亮域
+		query.addHighlightField("item_title");
+		// 设置前缀
+		query.setHighlightSimplePre("<font color='red'>");
+		// 设置后缀
+		query.setHighlightSimplePost("</font>");
+
+		// 使用HttpSolrServer执行查询，返回response
+		QueryResponse response = this.httpSolrServer.query(query);
+
+		// 使用response获取高亮数据
+		// {
+		// "c001": {"item_title": ["今天做"]},
+		// "c002": {"item_title": ["<font color='red'>"]}
+		// }
+		Map<String, Map<String, List<String>>> map = response.getHighlighting();
+
+		// 根据response获取查询结果results
+		SolrDocumentList results = response.getResults();
+
+		// 打印查询数据的总条数
+		System.out.println("查询到的数据总条数是：" + results.getNumFound());
+
+		// 遍历查询结果results
+		for (SolrDocument solrDocument : results) {
+			// 解析高亮数据
+			List<String> hlist = map.get(solrDocument.get("id").toString()).get("item_title");
+
+			// 打印结果
+			// id
+			System.out.println(solrDocument.get("id").toString());
+			// item_title
+			System.out.println(solrDocument.get("item_title").toString());
+
+			// 打印高亮数据
+			if (hlist != null && hlist.size() > 0) {
+				System.out.println(hlist.get(0));
+			}
+		}
+	}
+
+}

@@ -1,0 +1,47 @@
+package cn.itcast.freemarker.test;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+
+public class FreeMarkerTest {
+	// 模板 + 数据 = 静态页面
+	public static void main(String[] args) throws Exception {
+		// 1. 创建freemarker核心对象
+		Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
+
+		// 2. 给核心对象设置模板所在的位置，就是物理路径
+		System.out.println(System.getProperty("user.dir"));
+		cfg.setDirectoryForTemplateLoading(new File(System.getProperty("user.dir") + "/src\\ftl"));
+
+		// 3. 使用核心对象获取模板对象，需要的参数就是模板名称
+		// 官方推荐模板应该是ftl类型的，但是freemarker模板文件只要是文本内容的即可
+		// avi jpg gif docx mp3 xlsx itcast类型都可以
+		Template template = cfg.getTemplate("txt.avi");
+
+		// 4. 创建模型数据，官方推荐使用Map
+		Map<String, Object> root = new HashMap<>();
+
+		// 入门案例
+		String name = "world";
+		root.put("name", name);
+
+		// javaBean
+		Person person = new Person(1000l, "张三");
+		root.put("person", person);
+
+		// 5. 声明输出的Writer对象
+		Writer out = new FileWriter(new File("C:/Users/tree/Desktop/test.html"));
+
+		// 6. 使用模板对象输出静态页面（文本文件），
+		// 需要两个参数，一个是模型数据，第二参数是输出的Writer
+		template.process(root, out);
+
+	}
+
+}

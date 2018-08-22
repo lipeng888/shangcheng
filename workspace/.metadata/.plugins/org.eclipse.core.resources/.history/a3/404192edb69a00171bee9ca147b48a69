@@ -1,0 +1,29 @@
+package cn.itcast.solrj.test;
+
+import org.apache.solr.client.solrj.impl.HttpSolrServer;
+import org.junit.Test;
+
+public class HttpSolrServerTest {
+
+	// 新增和更新
+	@Test
+	public void testSaveAndUpdate() throws Exception {
+		// 创建HttpSolrServer连接对象
+		// 声明solr的接口地址
+		String baseURL = "";
+
+		HttpSolrServer httpSolrServer = new HttpSolrServer(baseURL);
+
+		// 创建SolrInputDocument，封装要保存的数据
+		// 如果id唯一域不存在，执行新增操作
+		// 如果id唯一域存在，执行更新操作
+
+		// 使用HttpSolrServer把数据保存到索引库中
+
+	}
+
+	// 删除
+
+	// 查询
+
+}

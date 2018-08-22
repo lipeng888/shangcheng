@@ -1,0 +1,15 @@
+1505804158635	Extract local variable 'item'
+1505804187730	Extract local variable 'itemDesc'
+1505813382114	Extract local variable 'json'
+1505813450896	Extract local variable 'jsonNode'
+1505813481205	Extract local variable 'type'
+1505813500244	Extract local variable 'itemId'
+1505814636875	Copy file
+1505814955640	Copy file
+1505814980583	Rename resource 'item.jsp'
+1505815036002	Extract local variable 'cfg'
+1505815137484	Extract local variable 'template'
+1505815504383	Extract local variable 'item'
+1505815514250	Extract local variable 'itemDesc'
+1505815702583	Copy file
+1505815729246	Copy files

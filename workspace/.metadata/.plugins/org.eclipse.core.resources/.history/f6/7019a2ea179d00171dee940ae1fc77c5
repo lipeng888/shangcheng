@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+//基础实现
+hello ${name} !
+
+//javaBean
+${person.id?c}
+${person.id}
+${person.name}
+
+//List
+<#list list as l >
+	${l_index + 41}
+	${l.id}
+	${l.name}
+</#list>
+
+//map展示第一种方式
+<#list map?keys as k>
+	${map[k].id}
+	${map[k].name}
+</#list>
+
+
+//map展示第二种方式
+
+
+
+
+
+
+
+</body>
+</html>

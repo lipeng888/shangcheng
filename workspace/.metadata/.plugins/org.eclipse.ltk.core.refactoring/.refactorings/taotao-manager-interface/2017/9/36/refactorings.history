@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;ItemService.java&apos; to &apos;com.taotao.manager.service.ItemService.java&apos;&#x0D;&#x0A;- Original project: &apos;taotao-manager-interface&apos;&#x0D;&#x0A;- Destination element: &apos;com.taotao.manager.service.ItemService.java&apos;&#x0D;&#x0A;- Original element: &apos;com.taotao.manager.service.ItemService.java&apos;" description="Copy compilation unit" destination="/src\/main\/java&lt;com.taotao.manager.service{ItemService.java" element1="/src\/main\/java&lt;com.taotao.manager.service{ItemService.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1504865810274" units="1" version="1.0"/>
+</session>

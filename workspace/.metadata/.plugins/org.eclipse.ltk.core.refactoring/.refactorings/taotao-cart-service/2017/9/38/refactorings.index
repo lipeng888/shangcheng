@@ -1,0 +1,8 @@
+1505978338831	Delete element
+1505978414733	Rename package 'com.taotao.manager.redis'
+1505978420815	Rename package 'com.taotao.manager.redis.impl'
+1505983416809	Extract local variable 'json'
+1505983748386	Extract local variable 'list'
+1505984789963	Extract local variable 'item'
+1505987831725	Extract local variable 'list'
+1505988285497	Extract local variable 'list'

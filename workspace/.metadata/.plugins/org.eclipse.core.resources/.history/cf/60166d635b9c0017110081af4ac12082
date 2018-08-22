@@ -1,0 +1,43 @@
+package com.taotao.search.message;
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.TextMessage;
+
+import org.apache.commons.lang3.StringUtils;
+
+public class ItemMessageListener implements MessageListener {
+
+	@Override
+	public void onMessage(Message message) {
+		// 判断消息类型是否是TextMessage
+		if (message instanceof TextMessage) {
+			// 如果是，强转
+			TextMessage textMessage = (TextMessage) message;
+
+			try {
+				// 获取消息内容
+				String json = textMessage.getText();
+
+				// 解析消息内容{"itemId":1474391929,"type":"save"}
+				// 判断json数据不为空
+				if (StringUtils.isNotBlank(json)) {
+					// 解析json数据获取jsonNode
+
+					// 获取操作符
+
+					// 获取商品id
+
+					// 根据消息内容进行操作
+
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+}

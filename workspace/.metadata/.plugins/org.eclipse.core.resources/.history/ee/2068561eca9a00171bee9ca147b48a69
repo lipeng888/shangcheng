@@ -1,0 +1,15 @@
+package com.taotao.search.test;
+
+import org.junit.Test;
+
+public class itemData {
+
+	@Test
+	public void testItemData() {
+		// 把商品数据从MySQL中查询
+
+		// 使用CloudSolrServer把数据保存到索引库中
+
+	}
+
+}

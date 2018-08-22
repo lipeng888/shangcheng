@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itcast.mybatis.mapper.UserMapper">
+
+	<!-- 根据名称模糊查询用户 -->
+	<select id="queryUsreByName" parameterType="string" resultType="UsEr">
+		SELECT * FROM `user` WHERE `name` LIKE '%${value}%'
+	</select>
+
+	<!-- 新增 -->
+	<insert id="saveUser" useGeneratedKeys="true" keyColumn="id"
+		keyProperty="id">
+		INSERT INTO `user` (
+		`user_name`,
+		`password`,
+		`name`,
+		`age`,
+		`sex`,
+		`birthday`,
+		`created`,
+		`updated`
+		)
+		VALUES
+		(
+		#{userName},
+		#{password},
+		#{name},
+		#{age},
+		#{sex},
+		NOW(),
+		NOW(),
+		NOW()
+		)
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateUserById">
+		UPDATE `user`
+		SET
+		`user_name` = #{userName},
+		`password`
+		= #{password},
+		`name` = #{name},
+		`age` = #{age},
+		`sex` = #{sex},
+		`birthday` = NOW(),
+		`created` = NOW(),
+		`updated` = NOW()
+		WHERE
+		(`id` =
+		#{id})
+	</update>
+
+	<!-- 删除 -->
+	<delete id="deleteById">
+		DELETE FROM `user` WHERE id=#{id}
+	</delete>
+
+
+</mapper>

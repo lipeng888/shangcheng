@@ -1,0 +1,74 @@
+package com.taotao.portal.controller;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.taotao.cart.service.CartService;
+import com.taotao.manager.pojo.User;
+import com.taotao.portal.util.CookieUtils;
+import com.taotao.sso.service.UserService;
+
+@Controller
+@RequestMapping("cart")
+public class CartController {
+
+	@Value("${TT_TICKET}")
+	private String TT_TICKET;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private CartService cartService;
+
+	// 添加商品到购物车
+	// http://www.taotao.com/cart/738388.html?num=3
+	@RequestMapping(value = "{itemId}")
+	public String addItemByCart(HttpServletRequest request, @PathVariable Long itemId, Integer num) {
+		// 获取用户登录信息
+		// 从cookie中获取ticket
+		String ticket = CookieUtils.getCookieValue(request, this.TT_TICKET, true);
+		// 使用单点登录服务，根据ticket查询用户信息
+		User user = this.userService.queryUserByTicket(ticket);
+
+		// 判断用户是否登录,就是判断user是否为非空
+		if (user != null) {
+			// user不为空，表示用户已登录
+//			使用购物车服务，把商品加入到购物车中
+			this.cartService.addItemByCart();
+
+		} else {
+			// user为空，表示用户未登录
+
+		}
+
+		return "redirect:/cart/show.html";
+	}
+
+	// springmvc 第二天
+	// Controller返回值
+	// ModelAndView
+	// void
+	// 使用request进行转发
+	// 使用response重定向
+	// String
+	// 返回逻辑视图名
+	// 进行转发forward转发
+	// 把原来的参数也带过来，原来的request和response
+	// 进行重定向redirect重定向
+	// 原来的参数没有了，新的request和response
+
+	// 展示购物车详情页
+	// http://www.taotao.com/cart/show.html
+	@RequestMapping(value = "show")
+	public String show() {
+
+		return "cart";
+	}
+
+}

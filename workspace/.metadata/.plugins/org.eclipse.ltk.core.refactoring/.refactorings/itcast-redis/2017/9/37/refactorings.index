@@ -1,0 +1,4 @@
+1505204895951	Extract local variable 'setResult'
+1505204920185	Extract local variable 'key'
+1505204925805	Extract local variable 'getResult'
+1505205206282	Extract local variable 'jedis'

@@ -1,0 +1,8 @@
+1505381152588	Extract local variable 'httpClient'
+1505381334748	Extract local variable 'response'
+1505381696716	Extract local variable 'httpResult'
+1505383277587	Extract local variable 'response'
+1505383447584	Extract local variable 'httpResult'
+1505383650500	Rename local variable 'httpPost'
+1505383957622	Extract local variable 'httpResult'
+1505384248218	Extract local variable 'httpResult'

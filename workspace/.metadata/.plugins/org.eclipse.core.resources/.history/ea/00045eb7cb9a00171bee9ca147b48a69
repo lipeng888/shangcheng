@@ -1,0 +1,52 @@
+package com.taotao.search.test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.solr.client.solrj.impl.CloudSolrServer;
+import org.apache.solr.common.SolrInputDocument;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.github.pagehelper.PageHelper;
+import com.taotao.manager.mapper.ItemMapper;
+import com.taotao.manager.pojo.Item;
+
+public class itemData {
+
+	private ItemMapper itemMapper;
+
+	private CloudSolrServer cloudSolrServer;
+
+	@Before
+	public void init() {
+		// 获取spring容器
+		ApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext-*.xml");
+
+		// 从容器中获取需要的对象
+		this.itemMapper = context.getBean(ItemMapper.class);
+		this.cloudSolrServer = context.getBean(CloudSolrServer.class);
+
+	}
+
+	@Test
+	public void testItemData() throws Exception {
+		// 把商品数据从MySQL中查询,使用分页查询
+		// 设置分页
+		PageHelper.startPage(1, 500);
+		List<Item> list = this.itemMapper.select(null);
+
+		// 把商品数据使用Document进行封装
+		// 声明封装的容器
+//		 List<SolrInputDocument> docs = new ArrayList<>();
+		for (Item item : list) {
+			
+		}
+
+		// 使用CloudSolrServer把数据保存到索引库中
+
+	}
+
+}

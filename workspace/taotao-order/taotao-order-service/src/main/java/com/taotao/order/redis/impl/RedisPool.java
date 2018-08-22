@@ -1,0 +1,92 @@
+package com.taotao.order.redis.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.taotao.order.redis.RedisUtils;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+
+public class RedisPool implements RedisUtils {
+
+	@Autowired
+	private JedisPool jedisPool;
+
+	@Override
+	public void set(String key, String value) {
+		// 从连接池获取连接对象
+		Jedis jedis = this.jedisPool.getResource();
+
+		// 使用连接对象进行业务操作
+		jedis.set(key, value);
+
+		// 需要关闭jedis，其实是把连接还给连接池
+		jedis.close();
+	}
+
+	@Override
+	public void set(String key, String value, Integer seconds) {
+		// 从连接池获取连接对象
+		Jedis jedis = this.jedisPool.getResource();
+
+		// 使用连接对象进行业务操作
+		jedis.set(key, value);
+		jedis.expire(key, seconds);
+
+		// 需要关闭jedis，其实是把连接还给连接池
+		jedis.close();
+	}
+
+	@Override
+	public String get(String key) {
+		// 从连接池获取连接对象
+		Jedis jedis = this.jedisPool.getResource();
+
+		// 使用连接对象进行业务操作
+		String result = jedis.get(key);
+
+		// 需要关闭jedis，其实是把连接还给连接池
+		jedis.close();
+
+		return result;
+	}
+
+	@Override
+	public void del(String key) {
+		// 从连接池获取连接对象
+		Jedis jedis = this.jedisPool.getResource();
+
+		// 使用连接对象进行业务操作
+		jedis.del(key);
+
+		// 需要关闭jedis，其实是把连接还给连接池
+		jedis.close();
+	}
+
+	@Override
+	public void expire(String key, Integer seconds) {
+		// 从连接池获取连接对象
+		Jedis jedis = this.jedisPool.getResource();
+
+		// 使用连接对象进行业务操作
+		jedis.expire(key, seconds);
+
+		// 需要关闭jedis，其实是把连接还给连接池
+		jedis.close();
+	}
+
+	@Override
+	public long incr(String key) {
+		// 从连接池获取连接对象
+		Jedis jedis = this.jedisPool.getResource();
+
+		// 使用连接对象进行业务操作
+		Long count = jedis.incr(key);
+
+		// 需要关闭jedis，其实是把连接还给连接池
+		jedis.close();
+
+		return count;
+	}
+
+}

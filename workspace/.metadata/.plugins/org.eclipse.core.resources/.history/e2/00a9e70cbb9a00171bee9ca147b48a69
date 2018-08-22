@@ -1,0 +1,70 @@
+package cn.itcast.solrj.test;
+
+import org.apache.solr.client.solrj.impl.HttpSolrServer;
+import org.apache.solr.common.SolrInputDocument;
+import org.junit.Before;
+import org.junit.Test;
+
+public class HttpSolrServerTest {
+
+	private HttpSolrServer httpSolrServer;
+
+	@Before
+	public void init() {
+		// 创建HttpSolrServer连接对象
+		// 浏览器客户端访问地址：http://solr.taotao.com/solr/#/
+		// java代码的接口访问地址:http://solr.taotao.com/solr/
+		// 声明solr的接口地址
+		String baseURL = "http://solr.taotao.com/solr/";
+
+		this.httpSolrServer = new HttpSolrServer(baseURL);
+	}
+
+	// 新增和更新
+	@Test
+	public void testSaveAndUpdate() throws Exception {
+		// 创建SolrInputDocument，封装要保存的数据
+		SolrInputDocument doc = new SolrInputDocument();
+		// 如果id唯一域不存在，执行新增操作
+		// 如果id唯一域存在，执行更新操作
+		doc.setField("id", "c003");
+		doc.setField("item_title", "起步20k，走向人生巅峰不远了");
+
+		// 使用HttpSolrServer把数据保存到索引库中
+		httpSolrServer.add(doc);
+		httpSolrServer.commit();
+
+	}
+
+	// 删除
+	@Test
+	public void testDelete() throws Exception {
+		// 根据HttpSolrServer删除数据
+		// 根据唯一域（id）进行删除
+		// this.httpSolrServer.deleteById("change.me");
+
+		// 根据条件进行删除（删除全部，慎用）
+		this.httpSolrServer.deleteByQuery("*:*");
+
+		// 提交
+		this.httpSolrServer.commit();
+
+	}
+
+	// 查询
+	@Test
+	public void testQuery() throws Exception {
+		// 创建查询对象
+
+		// 设置查询语法item_title:solr
+
+		// 设置高亮
+		// 设置开启高亮
+		// 设置高亮域
+		// 设置前缀
+		// 设置后缀
+
+		// 使用HttpSolrServer执行查询，返回response
+	}
+
+}
